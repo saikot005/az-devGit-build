@@ -1,0 +1,81 @@
+{
+	"name": "pl_project008",
+	"properties": {
+		"description": "It describes log entry log table informtion using stored procedure and system variables",
+		"activities": [
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 3
+				}
+			},
+			{
+				"name": "sp_log_pipeline_rundetails table load",
+				"description": "It describes log entry log table informtion using stored procedure and system variables",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Wait1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.00:30:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[sp_log_pipeline_rundetails]",
+					"storedProcedureParameters": {
+						"p_pipeline_name": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"p_pipeline_run_id": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"p_trigger_time": {
+							"value": {
+								"value": "@formatDateTime(utcnow(),'yyyy-MM-dd-hhmmss')",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"p_trigger_type": {
+							"value": {
+								"value": "@pipeline().TriggerType",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_azureSQL_db",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "module#6-waitAndStoredProc"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-11-25T04:20:46Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

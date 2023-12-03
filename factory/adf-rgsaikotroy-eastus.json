@@ -1,0 +1,16 @@
+{
+	"name": "adf-rgsaikotroy-eastus",
+	"properties": {
+		"globalConfigurations": {
+			"factoryStagingLSReferenceName": "ls_datalake_gen2",
+			"factoryStagingLSType": "LinkedServiceReference",
+			"factoryStagingFolderPath": "staging"
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "145dc9b8-0c83-470e-9773-9935f17969c2",
+		"tenantId": "adb53b4f-b05f-4dcb-a2e1-9111380568c3"
+	}
+}

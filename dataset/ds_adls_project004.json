@@ -1,0 +1,40 @@
+{
+	"name": "ds_adls_project004",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_datalake_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "project#2"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "employee.csv",
+				"fileSystem": "project-004"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Product_unique_id",
+				"type": "String"
+			},
+			{
+				"name": "Product_name",
+				"type": "String"
+			},
+			{
+				"name": "processing_ts",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

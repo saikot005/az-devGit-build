@@ -1,0 +1,41 @@
+{
+	"name": "pl_https_xml_transformation",
+	"properties": {
+		"description": "this pipeline tranform the extracted XML data from ecdc website in CSV format",
+		"activities": [
+			{
+				"name": "df_xml_csv_transformation_adls_load",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_hospitalicuadmissionrates_processed",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "None",
+					"cacheSinks": {
+						"firstRowOnly": true
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "project#3-webXMLtoSQLTable"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-11-26T05:01:43Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

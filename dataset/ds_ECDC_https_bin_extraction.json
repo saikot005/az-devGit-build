@@ -1,0 +1,31 @@
+{
+	"name": "ds_ECDC_https_bin_extraction",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_datalake_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"pSinkFileName": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "project#3"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().pSinkFileName",
+					"type": "Expression"
+				},
+				"folderPath": "raw_Https_Xml_Data",
+				"fileSystem": "project-apollo"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

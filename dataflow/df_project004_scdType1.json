@@ -1,0 +1,58 @@
+{
+	"name": "df_project004_scdType1",
+	"properties": {
+		"folder": {
+			"name": "project#2"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_adls_project004",
+						"type": "DatasetReference"
+					},
+					"name": "srcEmployeeCSV"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_asql_project004",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "alterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Emp_id as integer,",
+				"          Name as string,",
+				"          Gender as string,",
+				"          Salary as integer,",
+				"          Dept_id as integer",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false) ~> srcEmployeeCSV",
+				"srcEmployeeCSV alterRow(upsertIf(1==1)) ~> alterRow1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: true,",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['Emp_id'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}

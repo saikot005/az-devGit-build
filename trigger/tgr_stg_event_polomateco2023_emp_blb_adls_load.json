@@ -1,0 +1,17 @@
+{
+	"name": "tgr_stg_event_polomateco2023_emp_blb_adls_load",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/polomateco2023/blobs/employees",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/14fe7ee2-ad48-483e-86b0-33447fd19859/resourceGroups/RG_SaikotRoy/providers/Microsoft.Storage/storageAccounts/sablbrgsaikotroyeastus",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

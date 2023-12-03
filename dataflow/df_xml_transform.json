@@ -1,0 +1,129 @@
+{
+	"name": "df_xml_transform",
+	"properties": {
+		"folder": {
+			"name": "project#6"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "df_extracted_xml_read_ot_project6",
+						"type": "DatasetReference"
+					},
+					"name": "srcXml"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_xml_transformed_parquet_ot_project6",
+						"type": "DatasetReference"
+					},
+					"name": "sinkParquet"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SnglISINHandling"
+				},
+				{
+					"name": "BsktISINHandling"
+				},
+				{
+					"name": "U1UnionSnglISIN"
+				},
+				{
+					"name": "SnglIndxISINHandling"
+				},
+				{
+					"name": "SnglindxUnionBsktU1"
+				},
+				{
+					"name": "remISINnull1"
+				},
+				{
+					"name": "remISINnull2"
+				},
+				{
+					"name": "notExistsU1"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData} as ({urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Hdr} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,AppHdr} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,BizMsgIdr} as string, {urn:iso:std:iso:20022:tech:xsd:head.001.001.01,CreDt} as timestamp, {urn:iso:std:iso:20022:tech:xsd:head.001.001.01,Fr} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,OrgId} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,Id} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,OrgId} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,Othr} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,Id} as string))))), {urn:iso:std:iso:20022:tech:xsd:head.001.001.01,MsgDefIdr} as string, {urn:iso:std:iso:20022:tech:xsd:head.001.001.01,To} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,OrgId} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,Id} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,OrgId} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,Othr} as ({urn:iso:std:iso:20022:tech:xsd:head.001.001.01,Id} as string))))))), {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,DerivInstrmAttrbts} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,UndrlygInstrm} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Bskt} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,ISIN} as string), {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Sngl} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,ISIN} as string, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Indx} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,ISIN} as string)))), {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmGnlAttrbts} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,ClssfctnTp} as string, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,CmmdtyDerivInd} as boolean, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FullNm} as string, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Id} as string, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,NtnlCcy} as string, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,ShrtNm} as string), {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Issr} as string, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TechAttrbts} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,IncnsstncyInd} as boolean, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,PblctnPrd} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FrDt} as string), {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RlvntCmptntAuthrty} as string, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RlvntTradgVn} as string), {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TradgVnRltdAttrbts} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,AdmssnApprvlDtByIssr} as timestamp, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FrstTradDt} as string, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Id} as string, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,IssrReq} as boolean, {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TermntnDt} as timestamp))[], {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RptHdr} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RptgNtty} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,NtlCmptntAuthrty} as string), {urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RptgPrd} as ({urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Dt} as date))))))",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     validationMode: 'none',",
+				"     namespaces: true,",
+				"     timestampFormats: ['yyyy-MM-dd\\'T\\'HH:mm:ss\\'Z\\'']) ~> srcXml",
+				"srcXml foldDown(unroll({urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}),",
+				"     mapColumn(",
+				"          INSTRUMENT_ID_ISIN = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmGnlAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Id},",
+				"          Instrument_Full_Name = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmGnlAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FullNm},",
+				"          Instrument_CFI_CODE = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmGnlAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,ClssfctnTp},",
+				"          INSTRUMENT_MIC = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TradgVnRltdAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Id},",
+				"          DATE_OF_FIRST_TRADE = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TradgVnRltdAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FrstTradDt},",
+				"          Termination_DATE = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TradgVnRltdAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TermntnDt},",
+				"          UNDERLYING_INSTRUMENT_ID_ISIN = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,DerivInstrmAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,UndrlygInstrm}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Sngl}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,ISIN}",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> SnglISINHandling",
+				"srcXml foldDown(unroll({urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}),",
+				"     mapColumn(",
+				"          INSTRUMENT_ID_ISIN = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmGnlAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Id},",
+				"          Instrument_Full_Name = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmGnlAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FullNm},",
+				"          Instrument_CFI_CODE = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmGnlAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,ClssfctnTp},",
+				"          INSTRUMENT_MIC = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TradgVnRltdAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Id},",
+				"          DATE_OF_FIRST_TRADE = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TradgVnRltdAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FrstTradDt},",
+				"          Termination_DATE = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TradgVnRltdAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TermntnDt},",
+				"          UNDERLYING_INSTRUMENT_ID_ISIN = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,DerivInstrmAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,UndrlygInstrm}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Bskt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,ISIN}",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> BsktISINHandling",
+				"notExistsU1, SnglindxUnionBsktU1 union(byName: true)~> U1UnionSnglISIN",
+				"srcXml foldDown(unroll({urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}),",
+				"     mapColumn(",
+				"          INSTRUMENT_ID_ISIN = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmGnlAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Id},",
+				"          Instrument_Full_Name = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmGnlAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FullNm},",
+				"          Instrument_CFI_CODE = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmGnlAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,ClssfctnTp},",
+				"          INSTRUMENT_MIC = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TradgVnRltdAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Id},",
+				"          DATE_OF_FIRST_TRADE = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TradgVnRltdAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FrstTradDt},",
+				"          Termination_DATE = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TradgVnRltdAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,TermntnDt},",
+				"          UNDERLYING_INSTRUMENT_ID_ISIN = {urn:iso:std:iso:20022:tech:xsd:head.003.001.01,BizData}.{urn:iso:std:iso:20022:tech:xsd:head.003.001.01,Pyld}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Document}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,FinInstrmRptgRefDataRpt}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,RefData}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,DerivInstrmAttrbts}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,UndrlygInstrm}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Sngl}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,Indx}.{urn:iso:std:iso:20022:tech:xsd:auth.017.001.02,ISIN}",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> SnglIndxISINHandling",
+				"remISINnull2, remISINnull1 union(byName: true)~> SnglindxUnionBsktU1",
+				"SnglIndxISINHandling filter(!isNull(UNDERLYING_INSTRUMENT_ID_ISIN)) ~> remISINnull1",
+				"BsktISINHandling filter(!isNull(UNDERLYING_INSTRUMENT_ID_ISIN)) ~> remISINnull2",
+				"SnglISINHandling, SnglindxUnionBsktU1 exists(SnglISINHandling@INSTRUMENT_ID_ISIN == SnglindxUnionBsktU1@INSTRUMENT_ID_ISIN,",
+				"     negate:true,",
+				"     broadcast: 'auto')~> notExistsU1",
+				"U1UnionSnglISIN derive(DATE_OF_FIRST_TRADE = toDate(DATE_OF_FIRST_TRADE,'yyyy-MM-dd')) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     truncate: true,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     mapColumn(",
+				"          INSTRUMENT_ID_ISIN,",
+				"          Instrument_Full_Name,",
+				"          Instrument_CFI_CODE,",
+				"          INSTRUMENT_MIC,",
+				"          DATE_OF_FIRST_TRADE,",
+				"          Termination_DATE,",
+				"          UNDERLYING_INSTRUMENT_ID_ISIN",
+				"     )) ~> sinkParquet"
+			]
+		}
+	}
+}

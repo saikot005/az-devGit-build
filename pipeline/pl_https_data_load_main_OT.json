@@ -1,0 +1,66 @@
+{
+	"name": "pl_https_data_load_main_OT",
+	"properties": {
+		"activities": [
+			{
+				"name": "exe_pl_extraction_dly",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_extraction_ot",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "exe_pl_transform_dly",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "exe_pl_extraction_dly",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_transform_ot",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "exe_pl_snow_load",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "exe_pl_transform_dly",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_snowflake_load",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "project#6-httpsXmlPasring_OT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-12-01T18:38:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

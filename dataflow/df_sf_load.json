@@ -1,0 +1,108 @@
+{
+	"name": "df_sf_load",
+	"properties": {
+		"folder": {
+			"name": "module#7"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_xml_parquet",
+						"type": "DatasetReference"
+					},
+					"name": "sourceParquet"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_SnowflakeTable_test",
+						"type": "DatasetReference"
+					},
+					"name": "sinkSnow"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          fin_id as string,",
+				"          fin_fullname as string,",
+				"          fin_shortname as string,",
+				"          fin_classificationtp as string,",
+				"          fin_nationalcurrency as string,",
+				"          fin_CmmdtyDerivInd as boolean,",
+				"          issr as string,",
+				"          tra_id as string,",
+				"          tra_issrreq as boolean,",
+				"          tra_AdmssnApprvlDtByIssr as timestamp,",
+				"          tra_FrstTradDt as timestamp,",
+				"          tra_TermntnDt as timestamp,",
+				"          ISIN as string,",
+				"          OptnTp as string,",
+				"          RlvntCmptntAuthrty as string,",
+				"          FrDt as date,",
+				"          RlvntTradgVn as string,",
+				"          BasePdct as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
+				"     wildcardPaths:['*.parquet']) ~> sourceParquet",
+				"sourceParquet sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          FIN_ID as string,",
+				"          FIN_FULLNAME as string,",
+				"          FIN_SHORTNAME as string,",
+				"          FIN_CLASSIFICATIONTP as string,",
+				"          FIN_NATIONALCURRENCY as string,",
+				"          FIN_CMMDTYDERIVIND as string,",
+				"          ISSR as string,",
+				"          TRA_ID as string,",
+				"          TRA_ISSRREQ as string,",
+				"          TRA_ADMSSNAPPRVLDTBYISSR as timestamp,",
+				"          TRA_FRSTTRADDT as timestamp,",
+				"          TRA_TERMNTNDT as timestamp,",
+				"          ISIN as string,",
+				"          OPTNTP as string,",
+				"          RLVNTCMPTNTAUTHRTY as string,",
+				"          FRDT as timestamp,",
+				"          RLVNTTRADGVN as string,",
+				"          BASEPDCT as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          FIN_ID = fin_id,",
+				"          FIN_FULLNAME = fin_fullname,",
+				"          FIN_SHORTNAME = fin_shortname,",
+				"          FIN_CLASSIFICATIONTP = fin_classificationtp,",
+				"          FIN_NATIONALCURRENCY = fin_nationalcurrency,",
+				"          FIN_CMMDTYDERIVIND = fin_CmmdtyDerivInd,",
+				"          ISSR = issr,",
+				"          TRA_ID = tra_id,",
+				"          TRA_ISSRREQ = tra_issrreq,",
+				"          TRA_ADMSSNAPPRVLDTBYISSR = tra_AdmssnApprvlDtByIssr,",
+				"          TRA_FRSTTRADDT = tra_FrstTradDt,",
+				"          TRA_TERMNTNDT = tra_TermntnDt,",
+				"          ISIN,",
+				"          OPTNTP = OptnTp,",
+				"          RLVNTCMPTNTAUTHRTY = RlvntCmptntAuthrty,",
+				"          FRDT = FrDt,",
+				"          RLVNTTRADGVN = RlvntTradgVn,",
+				"          BASEPDCT = BasePdct",
+				"     )) ~> sinkSnow"
+			]
+		}
+	}
+}

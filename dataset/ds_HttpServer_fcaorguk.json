@@ -1,0 +1,33 @@
+{
+	"name": "ds_HttpServer_fcaorguk",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_HttpServer_fcaorguk",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"pRelativeURL": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "module#8"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@dataset().pRelativeURL",
+					"type": "Expression"
+				}
+			},
+			"compression": {
+				"type": "ZipDeflate",
+				"level": "Optimal"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,40 @@
+{
+	"name": "pl_transform_ot",
+	"properties": {
+		"activities": [
+			{
+				"name": "df_xml_to_parquet_transformation",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_xml_transform",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "None",
+					"cacheSinks": {
+						"firstRowOnly": true
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "project#6-httpsXmlPasring_OT"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-12-01T09:31:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

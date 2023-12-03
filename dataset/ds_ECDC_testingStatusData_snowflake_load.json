@@ -1,0 +1,105 @@
+{
+	"name": "ds_ECDC_testingStatusData_snowflake_load",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_snowflakeAccnt",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "module#7"
+		},
+		"annotations": [],
+		"type": "SnowflakeTable",
+		"schema": [
+			{
+				"name": "TRANS_ID",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "COUNTRY",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "COUNTRY_CODE",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "YEAR_WEEK",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "LEVEL",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "REGION",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "REGION_NAME",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "NEW_CASES",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "TESTS_DONE",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "POPULATION",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "TESTING_RATE",
+				"type": "FLOAT",
+				"precision": 15,
+				"scale": 0
+			},
+			{
+				"name": "POSITIVITY_RATE",
+				"type": "FLOAT",
+				"precision": 15,
+				"scale": 0
+			},
+			{
+				"name": "TESTING_DATA_SOURCE",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "LOADING_TS",
+				"type": "TIMESTAMP_NTZ",
+				"precision": 29,
+				"scale": 9
+			}
+		],
+		"typeProperties": {
+			"schema": "AZURE",
+			"table": "TESTING_STATUS"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

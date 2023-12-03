@@ -1,0 +1,129 @@
+{
+	"name": "ds_SnowflakeTable_test",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_snowflakeAccnt",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "module#7"
+		},
+		"annotations": [],
+		"type": "SnowflakeTable",
+		"schema": [
+			{
+				"name": "FIN_ID",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "FIN_FULLNAME",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "FIN_SHORTNAME",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "FIN_CLASSIFICATIONTP",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "FIN_NATIONALCURRENCY",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "FIN_CMMDTYDERIVIND",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "ISSR",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "TRA_ID",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "TRA_ISSRREQ",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "TRA_ADMSSNAPPRVLDTBYISSR",
+				"type": "TIMESTAMP_NTZ",
+				"precision": 29,
+				"scale": 9
+			},
+			{
+				"name": "TRA_FRSTTRADDT",
+				"type": "TIMESTAMP_NTZ",
+				"precision": 29,
+				"scale": 9
+			},
+			{
+				"name": "TRA_TERMNTNDT",
+				"type": "TIMESTAMP_NTZ",
+				"precision": 29,
+				"scale": 9
+			},
+			{
+				"name": "ISIN",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "OPTNTP",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "RLVNTCMPTNTAUTHRTY",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "FRDT",
+				"type": "TIMESTAMP_NTZ",
+				"precision": 29,
+				"scale": 9
+			},
+			{
+				"name": "RLVNTTRADGVN",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "BASEPDCT",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "AZURE",
+			"table": "XMLTEST"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

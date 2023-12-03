@@ -1,0 +1,41 @@
+{
+	"name": "ds_xml_extract_ot_project6",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_https_project6",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"plnkBaseURL": {
+					"value": "@dataset().pBaseURL",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"pBaseURL": {
+				"type": "string"
+			},
+			"pRelativeURL": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "project#6"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@dataset().pRelativeURL",
+					"type": "Expression"
+				}
+			},
+			"compression": {
+				"type": "ZipDeflate"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,23 @@
+{
+	"name": "ds_ECDC_xml_testingStatus_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_datalake_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "project#3"
+		},
+		"annotations": [],
+		"type": "Xml",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "testing_status.xml",
+				"folderPath": "raw_Https_Xml_Data",
+				"fileSystem": "project-apollo"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

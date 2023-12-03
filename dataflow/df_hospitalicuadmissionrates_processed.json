@@ -1,0 +1,120 @@
+{
+	"name": "df_hospitalicuadmissionrates_processed",
+	"properties": {
+		"folder": {
+			"name": "project#3"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_ECDC_xml_hospitalicuadmissionrates_data",
+						"type": "DatasetReference"
+					},
+					"name": "XMLsourceHospitalData"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_ECDC_xml_testingStatus_data",
+						"type": "DatasetReference"
+					},
+					"name": "XMLsourceTestingStatusData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_ECDC_csv_hospitaldata_load",
+						"type": "DatasetReference"
+					},
+					"name": "hospitalCsvAdlsLoad",
+					"description": "Export data to ds_adls_books_xml_csv"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_ECDC_csv_testingStatus_load",
+						"type": "DatasetReference"
+					},
+					"name": "testStatusCsvAdlsLoad"
+				}
+			],
+			"transformations": [
+				{
+					"name": "xmlToCsvHospitalData"
+				},
+				{
+					"name": "loadingTimestampHS"
+				},
+				{
+					"name": "loadingTimestampTS"
+				},
+				{
+					"name": "xmlToCsvTestingStatusData"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {http://www.safe.com/xml/xmltables,records} as ({http://www.safe.com/xml/xmltables,Sheet-table} as ({http://www.safe.com/xml/xmltables,Sheet} as ({http://www.safe.com/xml/xmltables,country} as string, {http://www.safe.com/xml/xmltables,date} as date, {http://www.safe.com/xml/xmltables,indicator} as string, {http://www.safe.com/xml/xmltables,source} as string, {http://www.safe.com/xml/xmltables,url} as string, {http://www.safe.com/xml/xmltables,value} as double, {http://www.safe.com/xml/xmltables,year_week} as string)[]))",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     validationMode: 'none',",
+				"     namespaces: true) ~> XMLsourceHospitalData",
+				"source(output(",
+				"          {http://www.safe.com/xml/xmltables,records} as ({http://www.safe.com/xml/xmltables,Sheet-table} as ({http://www.safe.com/xml/xmltables,Sheet} as ({http://www.safe.com/xml/xmltables,country} as string, {http://www.safe.com/xml/xmltables,country_code} as string, {http://www.safe.com/xml/xmltables,level} as string, {http://www.safe.com/xml/xmltables,new_cases} as integer, {http://www.safe.com/xml/xmltables,population} as integer, {http://www.safe.com/xml/xmltables,positivity_rate} as double, {http://www.safe.com/xml/xmltables,region} as string, {http://www.safe.com/xml/xmltables,region_name} as string, {http://www.safe.com/xml/xmltables,testing_data_source} as string, {http://www.safe.com/xml/xmltables,testing_rate} as double, {http://www.safe.com/xml/xmltables,tests_done} as integer, {http://www.safe.com/xml/xmltables,year_week} as string)[]))",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     validationMode: 'none',",
+				"     namespaces: true) ~> XMLsourceTestingStatusData",
+				"XMLsourceHospitalData foldDown(unroll({http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}),",
+				"     mapColumn(",
+				"          country = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,country},",
+				"          indicator = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,indicator},",
+				"          date = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,date},",
+				"          year_week = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,year_week},",
+				"          value = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,value},",
+				"          source = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,source}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> xmlToCsvHospitalData",
+				"xmlToCsvHospitalData derive(loading_ts = currentUTC('AEST')) ~> loadingTimestampHS",
+				"xmlToCsvTestingStatusData derive(loading_ts = currentUTC('AEST')) ~> loadingTimestampTS",
+				"XMLsourceTestingStatusData foldDown(unroll({http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}),",
+				"     mapColumn(",
+				"          country = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,country},",
+				"          country_code = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,country_code},",
+				"          year_week = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,year_week},",
+				"          level = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,level},",
+				"          region = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,region},",
+				"          region_name = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,region_name},",
+				"          tests_done = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,tests_done},",
+				"          population = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,population},",
+				"          testing_rate = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,testing_rate},",
+				"          positivity_rate = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,positivity_rate},",
+				"          testing_data_source = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,testing_data_source},",
+				"          new_cases = {http://www.safe.com/xml/xmltables,records}.{http://www.safe.com/xml/xmltables,Sheet-table}.{http://www.safe.com/xml/xmltables,Sheet}.{http://www.safe.com/xml/xmltables,new_cases}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> xmlToCsvTestingStatusData",
+				"loadingTimestampHS sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> hospitalCsvAdlsLoad",
+				"loadingTimestampTS sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> testStatusCsvAdlsLoad"
+			]
+		}
+	}
+}

@@ -1,0 +1,99 @@
+{
+	"name": "df_project009_empSCD2_upd",
+	"properties": {
+		"folder": {
+			"name": "project#4"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_asql_project009_scd2",
+						"type": "DatasetReference"
+					},
+					"name": "empSQL"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_adls_project009_emp",
+						"type": "DatasetReference"
+					},
+					"name": "empADLS"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_asql_project009_scd2",
+						"type": "DatasetReference"
+					},
+					"name": "empSQLupd"
+				}
+			],
+			"transformations": [
+				{
+					"name": "exists1"
+				},
+				{
+					"name": "IsActiveUpdate",
+					"description": "updation isActive Col value to 'N'"
+				},
+				{
+					"name": "alterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Emp_key as integer,",
+				"          Emp_id as integer,",
+				"          Name as string,",
+				"          Gender as string,",
+				"          Salary as integer,",
+				"          Dept_id as integer,",
+				"          Is_Active as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> empSQL",
+				"source(output(",
+				"          Emp_id as integer,",
+				"          Name as string,",
+				"          Gender as string,",
+				"          Salary as integer,",
+				"          Dept_id as integer",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false) ~> empADLS",
+				"empSQL, empADLS exists(empSQL@Emp_id == empADLS@Emp_id,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> exists1",
+				"exists1 derive(Is_Active = 'N') ~> IsActiveUpdate",
+				"IsActiveUpdate alterRow(updateIf(1==1)) ~> alterRow1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Emp_key as integer,",
+				"          Emp_id as integer,",
+				"          Name as string,",
+				"          Gender as string,",
+				"          Salary as integer,",
+				"          Dept_id as integer,",
+				"          Is_Active as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:['Emp_key'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> empSQLupd"
+			]
+		}
+	}
+}

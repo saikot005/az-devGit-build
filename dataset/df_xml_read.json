@@ -1,0 +1,22 @@
+{
+	"name": "df_xml_read",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blb",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "module#7"
+		},
+		"annotations": [],
+		"type": "Xml",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "apollo.xml",
+				"container": "apollo"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

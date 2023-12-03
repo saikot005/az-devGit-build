@@ -1,0 +1,13 @@
+{
+	"name": "ls_HttpServer_fcaorguk",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://data.fca.org.uk/artefacts/FIRDS/",
+			"enableServerCertificateValidation": false,
+			"authenticationType": "Anonymous"
+		}
+	}
+}

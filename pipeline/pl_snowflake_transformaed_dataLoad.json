@@ -1,0 +1,70 @@
+{
+	"name": "pl_snowflake_transformaed_dataLoad",
+	"properties": {
+		"description": "this pipeline extract the XML data from ecdc website. As ADF doesnt suppost target and source both XML hence we have used binary dataset for both source and target.",
+		"activities": [
+			{
+				"name": "Execute Extraction",
+				"description": "execute pl_https_xml_extraction pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_https_xml_extraction",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute Transformation",
+				"description": "pl_https_xml_extraction",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Extraction",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_https_xml_transformation",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Execute Snowflake Load",
+				"description": "execute pl_https_xml_extraction pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Transformation",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_https_xml_csv_snowflake_load",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "project#3-webXMLtoSQLTable"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-11-26T05:06:00Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,24 @@
+{
+	"name": "ds_xml_config_lkp_ot_project6",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_datalake_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "project#6"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "config_file_sample.json",
+				"folderPath": "config_files",
+				"fileSystem": "project-6-onetime"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

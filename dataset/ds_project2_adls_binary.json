@@ -1,0 +1,30 @@
+{
+	"name": "ds_project2_adls_binary",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_project2_adls_silver",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"pFileName": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "module#1"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().pFileName",
+					"type": "Expression"
+				},
+				"fileSystem": "project-002"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

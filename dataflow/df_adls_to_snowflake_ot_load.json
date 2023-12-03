@@ -1,0 +1,72 @@
+{
+	"name": "df_adls_to_snowflake_ot_load",
+	"properties": {
+		"folder": {
+			"name": "project#6"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_adls_parquet_read",
+						"type": "DatasetReference"
+					},
+					"name": "srcAdlsParquet"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_SnowflakeTable_xml_ot_load",
+						"type": "DatasetReference"
+					},
+					"name": "sinkSnow"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          INSTRUMENT_ID_ISIN as string,",
+				"          Instrument_Full_Name as string,",
+				"          Instrument_CFI_CODE as string,",
+				"          INSTRUMENT_MIC as string,",
+				"          DATE_OF_FIRST_TRADE as date,",
+				"          Termination_DATE as timestamp,",
+				"          UNDERLYING_INSTRUMENT_ID_ISIN as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet',",
+				"     wildcardPaths:['transformed_xml_unzip_data/*.parquet']) ~> srcAdlsParquet",
+				"srcAdlsParquet sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          INSTRUMENT_ID_ISIN as string,",
+				"          INSTRUMENT_FULL_NAME as string,",
+				"          INSTRUMENT_CFI_CODE as string,",
+				"          INSTRUMENT_MIC as string,",
+				"          DATE_OF_FIRST_TRADE as timestamp,",
+				"          TERMINATION_DATE as timestamp,",
+				"          UNDERLYING_INSTRUMENT_ID_ISIN as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          INSTRUMENT_ID_ISIN,",
+				"          INSTRUMENT_FULL_NAME = Instrument_Full_Name,",
+				"          INSTRUMENT_CFI_CODE = Instrument_CFI_CODE,",
+				"          INSTRUMENT_MIC,",
+				"          DATE_OF_FIRST_TRADE,",
+				"          TERMINATION_DATE = Termination_DATE,",
+				"          UNDERLYING_INSTRUMENT_ID_ISIN",
+				"     )) ~> sinkSnow"
+			]
+		}
+	}
+}

@@ -1,0 +1,50 @@
+{
+	"name": "ds_adls_parquet_read",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_datalake_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "transformed_xml_unzip_data",
+				"fileSystem": "project-6-onetime"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "INSTRUMENT_ID_ISIN",
+				"type": "UTF8"
+			},
+			{
+				"name": "Instrument_Full_Name",
+				"type": "UTF8"
+			},
+			{
+				"name": "Instrument_CFI_CODE",
+				"type": "UTF8"
+			},
+			{
+				"name": "INSTRUMENT_MIC",
+				"type": "UTF8"
+			},
+			{
+				"name": "DATE_OF_FIRST_TRADE",
+				"type": "UTF8"
+			},
+			{
+				"name": "Termination_DATE",
+				"type": "INT96"
+			},
+			{
+				"name": "UNDERLYING_INSTRUMENT_ID_ISIN",
+				"type": "UTF8"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

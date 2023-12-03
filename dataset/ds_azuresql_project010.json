@@ -1,0 +1,20 @@
+{
+	"name": "ds_azuresql_project010",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azureSQL_db",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "project#5"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "config"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

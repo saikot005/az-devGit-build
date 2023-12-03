@@ -1,0 +1,43 @@
+{
+	"name": "pl_project004_scd1",
+	"properties": {
+		"description": "scd type 1 implementation",
+		"activities": [
+			{
+				"name": "df_project004_scdType1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_project004_scdType1",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Coarse"
+				}
+			}
+		],
+		"variables": {
+			"vFileName": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "project#2-scdType1"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-11-25T04:20:49Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

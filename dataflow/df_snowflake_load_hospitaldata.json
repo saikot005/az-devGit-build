@@ -1,0 +1,148 @@
+{
+	"name": "df_snowflake_load_hospitaldata",
+	"properties": {
+		"folder": {
+			"name": "project#3"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_ECDC_csv_hospitaldata_load",
+						"type": "DatasetReference"
+					},
+					"name": "srcCSVHospitalData"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_ECDC_csv_testingStatus_load",
+						"type": "DatasetReference"
+					},
+					"name": "srcCSVTestingStatusData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_ECDC_hospitalData_snowflake_load",
+						"type": "DatasetReference"
+					},
+					"name": "SnowflakeHospitalLoad"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_ECDC_testingStatusData_snowflake_load",
+						"type": "DatasetReference"
+					},
+					"name": "SnowflakeTestingStatusLoad"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          country as string,",
+				"          indicator as string,",
+				"          date as date,",
+				"          year_week as string,",
+				"          value as double,",
+				"          source as string,",
+				"          loading_ts as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> srcCSVHospitalData",
+				"source(output(",
+				"          country as string,",
+				"          country_code as string,",
+				"          year_week as string,",
+				"          level as string,",
+				"          region as string,",
+				"          region_name as string,",
+				"          tests_done as integer,",
+				"          population as integer,",
+				"          testing_rate as double,",
+				"          positivity_rate as double,",
+				"          testing_data_source as string,",
+				"          new_cases as integer,",
+				"          loading_ts as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> srcCSVTestingStatusData",
+				"srcCSVHospitalData sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          TRANS_ID as decimal(38,0),",
+				"          COUNTRY as string,",
+				"          INDICATOR as string,",
+				"          ADMISSIONDATE as date,",
+				"          YEAR_WEEK as string,",
+				"          VALUE as decimal(38,0),",
+				"          SOURCE as string,",
+				"          LOADING_TS as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          COUNTRY = country,",
+				"          INDICATOR = indicator,",
+				"          ADMISSIONDATE = date,",
+				"          YEAR_WEEK = year_week,",
+				"          VALUE = value,",
+				"          SOURCE = source,",
+				"          LOADING_TS = loading_ts",
+				"     )) ~> SnowflakeHospitalLoad",
+				"srcCSVTestingStatusData sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          TRANS_ID as decimal(38,0),",
+				"          COUNTRY as string,",
+				"          COUNTRY_CODE as string,",
+				"          YEAR_WEEK as string,",
+				"          LEVEL as string,",
+				"          REGION as string,",
+				"          REGION_NAME as string,",
+				"          NEW_CASES as decimal(38,0),",
+				"          TESTS_DONE as decimal(38,0),",
+				"          POPULATION as decimal(38,0),",
+				"          TESTING_RATE as double,",
+				"          POSITIVITY_RATE as double,",
+				"          TESTING_DATA_SOURCE as string,",
+				"          LOADING_TS as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     stageInsert: true,",
+				"     mapColumn(",
+				"          COUNTRY = country,",
+				"          COUNTRY_CODE = country_code,",
+				"          YEAR_WEEK = year_week,",
+				"          LEVEL = level,",
+				"          REGION = region,",
+				"          REGION_NAME = region_name,",
+				"          NEW_CASES = new_cases,",
+				"          TESTS_DONE = tests_done,",
+				"          POPULATION = population,",
+				"          TESTING_RATE = testing_rate,",
+				"          POSITIVITY_RATE = positivity_rate,",
+				"          TESTING_DATA_SOURCE = testing_data_source,",
+				"          LOADING_TS = loading_ts",
+				"     )) ~> SnowflakeTestingStatusLoad"
+			]
+		}
+	}
+}

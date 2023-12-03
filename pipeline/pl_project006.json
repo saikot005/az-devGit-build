@@ -1,0 +1,172 @@
+{
+	"name": "pl_project006",
+	"properties": {
+		"description": "This pipeline copy all the SalesLT schema tables to ADLS storage in CSV format",
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select table_schema, table_name\nfrom information_schema.tables\nwhere table_type = 'BASE TABLE' and table_schema = 'SalesLT'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_asql_project006",
+						"type": "DatasetReference",
+						"parameters": {
+							"pSchemaName": {
+								"value": "@variables('vSchemaName')",
+								"type": "Expression"
+							},
+							"ptableName": {
+								"value": "@variables('vTableName')",
+								"type": "Expression"
+							}
+						}
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings",
+										"maxConcurrentConnections": 4,
+										"copyBehavior": "PreserveHierarchy",
+										"blockSizeInMB": 4
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".csv"
+									}
+								},
+								"enableStaging": true,
+								"stagingSettings": {
+									"linkedServiceName": {
+										"referenceName": "ls_datalake_gen2",
+										"type": "LinkedServiceReference"
+									},
+									"path": "staging"
+								},
+								"logSettings": {
+									"enableCopyActivityLog": true,
+									"copyActivityLogSettings": {
+										"logLevel": "Info",
+										"enableReliableLogging": false
+									},
+									"logLocationSettings": {
+										"linkedServiceName": {
+											"referenceName": "ls_datalake_gen2",
+											"type": "LinkedServiceReference"
+										},
+										"path": "logging"
+									}
+								},
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_asql_project006",
+									"type": "DatasetReference",
+									"parameters": {
+										"pSchemaName": {
+											"value": "@item().TABLE_SCHEMA",
+											"type": "Expression"
+										},
+										"ptableName": {
+											"value": "@item().TABLE_NAME",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_adls_project006",
+									"type": "DatasetReference",
+									"parameters": {
+										"pFileName": {
+											"value": "@concat(item().TABLE_SCHEMA,'_',item().TABLE_NAME,'_',formatDateTime(utcnow(),'yyyyMMdd'),'.csv')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"vTableName": {
+				"type": "String"
+			},
+			"vSchemaName": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "module#4-SQL_datedFile_yyyyMMdd"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-11-25T04:20:48Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

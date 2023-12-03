@@ -1,0 +1,42 @@
+{
+	"name": "ds_sink_project_001",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_datalake_gen2",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"pSInkFileName": {
+				"type": "String"
+			},
+			"pSInkFolderPath": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "project#1"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().pSInkFileName",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().pSInkFolderPath",
+					"type": "Expression"
+				},
+				"fileSystem": "project-001"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

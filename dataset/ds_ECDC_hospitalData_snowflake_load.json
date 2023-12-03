@@ -1,0 +1,69 @@
+{
+	"name": "ds_ECDC_hospitalData_snowflake_load",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_snowflakeAccnt",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "project#3"
+		},
+		"annotations": [],
+		"type": "SnowflakeTable",
+		"schema": [
+			{
+				"name": "TRANS_ID",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "COUNTRY",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "INDICATOR",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "ADMISSIONDATE",
+				"type": "DATE",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "YEAR_WEEK",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "VALUE",
+				"type": "NUMBER",
+				"precision": 38,
+				"scale": 0
+			},
+			{
+				"name": "SOURCE",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "LOADING_TS",
+				"type": "TIMESTAMP_NTZ",
+				"precision": 29,
+				"scale": 9
+			}
+		],
+		"typeProperties": {
+			"schema": "AZURE",
+			"table": "HOSPITALADMISSIONRATES"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

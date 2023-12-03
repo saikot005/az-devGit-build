@@ -1,0 +1,53 @@
+{
+	"name": "ds_asql_project009_scd2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_azureSQL_db",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "project#4"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Emp_key",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Emp_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Name",
+				"type": "varchar"
+			},
+			{
+				"name": "Gender",
+				"type": "varchar"
+			},
+			{
+				"name": "Salary",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Dept_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Is_Active",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "employees_SCD2"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

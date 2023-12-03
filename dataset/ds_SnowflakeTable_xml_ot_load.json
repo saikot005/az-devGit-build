@@ -1,0 +1,60 @@
+{
+	"name": "ds_SnowflakeTable_xml_ot_load",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_snowflakeAccnt",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeTable",
+		"schema": [
+			{
+				"name": "INSTRUMENT_ID_ISIN",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "INSTRUMENT_FULL_NAME",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "INSTRUMENT_CFI_CODE",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "INSTRUMENT_MIC",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "DATE_OF_FIRST_TRADE",
+				"type": "TIMESTAMP_NTZ",
+				"precision": 29,
+				"scale": 9
+			},
+			{
+				"name": "TERMINATION_DATE",
+				"type": "TIMESTAMP_NTZ",
+				"precision": 29,
+				"scale": 9
+			},
+			{
+				"name": "UNDERLYING_INSTRUMENT_ID_ISIN",
+				"type": "VARCHAR",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "AZURE",
+			"table": "XML_OT_LOAD"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

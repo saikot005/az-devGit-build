@@ -1,0 +1,74 @@
+{
+	"name": "df_project009_empSCD2_ins",
+	"properties": {
+		"folder": {
+			"name": "project#4"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_adls_project009_emp",
+						"type": "DatasetReference"
+					},
+					"name": "empSQL"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_asql_project009_scd2",
+						"type": "DatasetReference"
+					},
+					"name": "empSQLins"
+				}
+			],
+			"transformations": [
+				{
+					"name": "IsActiveINS"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Emp_id as integer,",
+				"          Name as string,",
+				"          Gender as string,",
+				"          Salary as integer,",
+				"          Dept_id as integer",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false) ~> empSQL",
+				"empSQL derive(IsActive = 'Y') ~> IsActiveINS",
+				"IsActiveINS sink(allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     input(",
+				"          Emp_key as integer,",
+				"          Emp_id as integer,",
+				"          Name as string,",
+				"          Gender as string,",
+				"          Salary as integer,",
+				"          Dept_id as integer,",
+				"          Is_Active as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Emp_id,",
+				"          Name,",
+				"          Gender,",
+				"          Salary,",
+				"          Dept_id,",
+				"          Is_Active = IsActive",
+				"     )) ~> empSQLins"
+			]
+		}
+	}
+}

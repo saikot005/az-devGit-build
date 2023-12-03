@@ -1,0 +1,27 @@
+{
+	"name": "ds_module8_lookupFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blb",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "module#8"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "file_name_lkp.txt",
+				"container": "apollo"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

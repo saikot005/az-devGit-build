@@ -1,0 +1,40 @@
+{
+	"name": "pl_https_xml_csv_snowflake_load",
+	"properties": {
+		"activities": [
+			{
+				"name": "df_snowflake_load",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_snowflake_load_hospitaldata",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "None",
+					"cacheSinks": {
+						"firstRowOnly": true
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "project#3-webXMLtoSQLTable"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-11-28T08:13:45Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

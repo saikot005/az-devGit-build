@@ -1,0 +1,12 @@
+{
+	"name": "ls_azureSQL_db",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=adf-demo-sql-server-rgsaikotroy.database.windows.net;initial catalog=asql-rgsaikotroy-eastus;user id=sqldb",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDIyMDQ0MEMxLTkyMDQtNEQ5MS1BNjAwLUM3RDU3QTg4MDZFN19jMzQ5ZGNhMy1lN2Y4LTQ3YTMtYTQ4OS0xMzNlM2ZhNWM4NTYiDQp9"
+		}
+	}
+}

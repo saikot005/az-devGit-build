@@ -1,0 +1,153 @@
+{
+	"name": "pl_https_xml_extraction",
+	"properties": {
+		"activities": [
+			{
+				"name": "check webXML_config exists",
+				"description": "Checking the existence of the config file in path",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_webXML_config_json",
+						"type": "DatasetReference"
+					},
+					"timeout": "0.00:00:10",
+					"sleep": 2
+				}
+			},
+			{
+				"name": "lkp_webXML_config",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "check webXML_config exists",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "ds_webXML_config_json",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEachIterator",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "lkp_webXML_config",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('lkp_webXML_config').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "web to ADLS xml load",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "BinarySource",
+									"storeSettings": {
+										"type": "HttpReadSettings",
+										"requestMethod": "GET"
+									},
+									"formatSettings": {
+										"type": "BinaryReadSettings"
+									}
+								},
+								"sink": {
+									"type": "BinarySink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_ECDC_https_bin_extraction_adlsLoad",
+									"type": "DatasetReference",
+									"parameters": {
+										"pSourceBaseURL": {
+											"value": "@item().sourceBaseURL",
+											"type": "Expression"
+										},
+										"pSourceRelativeURL": {
+											"value": "@item().sourceRelativeURL",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_ECDC_https_bin_extraction",
+									"type": "DatasetReference",
+									"parameters": {
+										"pSinkFileName": {
+											"value": "@item().sinkFileName",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"vADLSFileNames": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "project#3-webXMLtoSQLTable"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-11-26T05:01:43Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
