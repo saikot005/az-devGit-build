@@ -1,0 +1,167 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "XmlSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "XmlReadSettings",
+							"validationMode": "none",
+							"namespaces": true
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['BizData']['Hdr']['AppHdr']['Fr']['OrgId']['Id']['OrgId']['Othr']['Id']"
+								},
+								"sink": {
+									"ordinal": 1
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Hdr']['AppHdr']['To']['OrgId']['Id']['OrgId']['Othr']['Id']"
+								},
+								"sink": {
+									"ordinal": 2
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Hdr']['AppHdr']['BizMsgIdr']"
+								},
+								"sink": {
+									"ordinal": 3
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Hdr']['AppHdr']['MsgDefIdr']"
+								},
+								"sink": {
+									"ordinal": 4
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Hdr']['AppHdr']['CreDt']"
+								},
+								"sink": {
+									"ordinal": 5
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataRpt']['RptHdr']['RptgNtty']['NtlCmptntAuthrty']"
+								},
+								"sink": {
+									"ordinal": 6
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataRpt']['RptHdr']['RptgPrd']['Dt']"
+								},
+								"sink": {
+									"ordinal": 7
+								}
+							},
+							{
+								"source": {
+									"path": "['Id']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 8
+								}
+							},
+							{
+								"source": {
+									"path": "['FullNm']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 9
+								}
+							},
+							{
+								"source": {
+									"path": "['ClssfctnTp']"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 10
+								}
+							},
+							{
+								"source": {
+									"path": "['FrstTradDt']"
+								},
+								"sink": {
+									"type": "Date",
+									"ordinal": 11
+								}
+							},
+							{
+								"source": {
+									"path": "['TermntnDt']"
+								},
+								"sink": {
+									"type": "DateTime",
+									"ordinal": 12
+								}
+							}
+						],
+						"collectionReference": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataRpt']['RefData']"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Xml1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
