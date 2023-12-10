@@ -121,7 +121,7 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "AZURE",
+			"schema": "PUBLIC",
 			"table": "XMLTEST"
 		}
 	},
