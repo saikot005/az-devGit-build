@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "sample_xml.xml",
+				"fileName": "DLTINS_20231210_01of01.xml",
 				"fileSystem": "snowtemp"
 			}
 		}

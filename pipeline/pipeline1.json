@@ -29,14 +29,9 @@
 						}
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
+						"type": "SnowflakeSink",
+						"importSettings": {
+							"type": "SnowflakeImportCopyCommand"
 						}
 					},
 					"enableStaging": false,
@@ -46,106 +41,161 @@
 							{
 								"source": {
 									"path": "$['BizData']['Hdr']['AppHdr']['Fr']['OrgId']['Id']['OrgId']['Othr']['Id']"
-								},
-								"sink": {
-									"ordinal": 1
 								}
 							},
 							{
 								"source": {
 									"path": "$['BizData']['Hdr']['AppHdr']['To']['OrgId']['Id']['OrgId']['Othr']['Id']"
-								},
-								"sink": {
-									"ordinal": 2
 								}
 							},
 							{
 								"source": {
 									"path": "$['BizData']['Hdr']['AppHdr']['BizMsgIdr']"
-								},
-								"sink": {
-									"ordinal": 3
 								}
 							},
 							{
 								"source": {
 									"path": "$['BizData']['Hdr']['AppHdr']['MsgDefIdr']"
-								},
-								"sink": {
-									"ordinal": 4
 								}
 							},
 							{
 								"source": {
 									"path": "$['BizData']['Hdr']['AppHdr']['CreDt']"
-								},
-								"sink": {
-									"ordinal": 5
 								}
 							},
 							{
 								"source": {
-									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataRpt']['RptHdr']['RptgNtty']['NtlCmptntAuthrty']"
-								},
-								"sink": {
-									"ordinal": 6
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['RptHdr']['RptgNtty']['NtlCmptntAuthrty']"
 								}
 							},
 							{
 								"source": {
-									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataRpt']['RptHdr']['RptgPrd']['Dt']"
-								},
-								"sink": {
-									"ordinal": 7
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['RptHdr']['RptgPrd']['Dt']"
 								}
 							},
 							{
 								"source": {
-									"path": "['Id']"
-								},
-								"sink": {
-									"type": "String",
-									"ordinal": 8
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['FinInstrmGnlAttrbts']['Id']"
 								}
 							},
 							{
 								"source": {
-									"path": "['FullNm']"
-								},
-								"sink": {
-									"type": "String",
-									"ordinal": 9
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['FinInstrmGnlAttrbts']['FullNm']"
 								}
 							},
 							{
 								"source": {
-									"path": "['ClssfctnTp']"
-								},
-								"sink": {
-									"type": "String",
-									"ordinal": 10
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['FinInstrmGnlAttrbts']['ShrtNm']"
 								}
 							},
 							{
 								"source": {
-									"path": "['FrstTradDt']"
-								},
-								"sink": {
-									"type": "Date",
-									"ordinal": 11
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['FinInstrmGnlAttrbts']['ClssfctnTp']"
 								}
 							},
 							{
 								"source": {
-									"path": "['TermntnDt']"
-								},
-								"sink": {
-									"type": "DateTime",
-									"ordinal": 12
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['FinInstrmGnlAttrbts']['NtnlCcy']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['FinInstrmGnlAttrbts']['CmmdtyDerivInd']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['Issr']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['TradgVnRltdAttrbts']['Id']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['TradgVnRltdAttrbts']['IssrReq']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['TradgVnRltdAttrbts']['FrstTradDt']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['TradgVnRltdAttrbts']['TermntnDt']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['DerivInstrmAttrbts']['XpryDt']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['DerivInstrmAttrbts']['PricMltplr']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['DerivInstrmAttrbts']['UndrlygInstrm']['Sngl']['ISIN']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['DerivInstrmAttrbts']['OptnTp']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['DerivInstrmAttrbts']['StrkPric']['Pric']['MntryVal']['Amt']['@Ccy']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['DerivInstrmAttrbts']['StrkPric']['Pric']['MntryVal']['Amt']['_value_']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['DerivInstrmAttrbts']['StrkPric']['Pric']['MntryVal']['Sgn']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['DerivInstrmAttrbts']['OptnExrcStyle']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['DerivInstrmAttrbts']['DlvryTp']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['TechAttrbts']['RlvntCmptntAuthrty']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['TechAttrbts']['PblctnPrd']['FrDt']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['TechAttrbts']['NvrPblshd']"
+								}
+							},
+							{
+								"source": {
+									"path": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataDltaRpt']['FinInstrm'][0]['TermntdRcrd']['TechAttrbts']['RlvntTradgVn']"
 								}
 							}
 						],
-						"collectionReference": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataRpt']['RefData']"
+						"collectionReference": "$['BizData']['Pyld']['Document']['FinInstrmRptgRefDataRpt']['RefData']",
+						"mapComplexValuesToString": true
 					}
 				},
 				"inputs": [
@@ -156,7 +206,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DelimitedText1",
+						"referenceName": "ds_SnowflakeTable_test",
 						"type": "DatasetReference"
 					}
 				]
